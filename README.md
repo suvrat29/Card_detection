@@ -262,3 +262,7 @@ To test your object detector, move a picture of the object or objects into the /
 To run any of the scripts, type “idle” in the Anaconda Command Prompt (with the “tf-gpu” virtual environment activated) and press ENTER. This will open IDLE, and from there, you can open any of the scripts and run them.
 
 If everything is working properly, the object detector will initialize for about 10 seconds and then display a window showing any objects it’s detected in the image!
+
+
+### I've included a jupyter notebook as well to better understand the code if the above instructions are, in some way, not clear.
+### Credits to [EdjeElectronics](https://github.com/EdjeElectronics) as I've used his readme for pointers.
