@@ -1,0 +1,3 @@
+Train images go inside this folder.
+
+After annotation, the .xml files will also be placed inside the same folder.
