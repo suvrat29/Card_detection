@@ -17,7 +17,7 @@ This readme describes every step required to get going with your own object dete
 7. [Exporting the Inference Graph](https://github.com/suvrat29/Card_detection/blob/master/README.md#7-exporting-the-inference-graph)
 8. [Testing and Using the Newly Trained Object Detection Classifier](https://github.com/suvrat29/Card_detection/blob/master/README.md#8-testing-and-using-the-newly-trained-object-detection-classifier)
 
-This repository includes all the files needed to build a classifier based on the TensorFlow(GPU). Anything that causes any kind of issue has been rectified and the steps has been noted on the subsequent chapters with a "*Note:*". It also has the required python scripts that are used for tasks like converting xml to csv files or renaming the files.
+This repository includes all the files needed to build a classifier based on the TensorFlow(GPU). Anything that causes any kind of issue has been rectified and the steps has been noted on the subsequent chapters with a **"*Note:*"**. It also has the required python scripts that are used for tasks like converting xml to csv files or renaming the files.
 
 ## Introduction
 The purpose of this readme is to explain and better understand how to train your own Convolutional Neural Network(CNN) object detection classifier for multiple objects, starting from zero. At the end of this readme, we would have built a program that can identify and draw boxes around specific objects in pictures.
