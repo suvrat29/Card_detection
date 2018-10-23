@@ -14,9 +14,9 @@ This readme describes every step required to get going with your own object dete
 3. [Gathering and labeling pictures]()
 4. [Generating training data]()
 5. [Creating label map and configure training]()
-6. [Training]()
-7. [Exporting the inference graph]()
-8. [Testing and using the newly trained object detection classifier]()
+6. [Run the Training]()
+7. [Exporting the Inference Graph]()
+8. [Testing and Using the Newly Trained Object Detection Classifier]()
 
 This repository includes all the files needed to build a classifier based on the TensorFlow(GPU). Anything that causes any kind of issue has been rectified and the steps has been noted on the subsequent chapters with a "***Note:***". It also has the required python scripts that are used for tasks like converting xml to csv files or renaming the files.
 
@@ -228,7 +228,7 @@ Make the following changes to the faster_rcnn_inception_v2_pets.config file. Not
 
 Save the file after the changes have been made. The training job is all configured and ready to go.
 
-### Run the Training
+### 6. Run the Training
 
 *Note: As of version 1.9, TensorFlow has deprecated the "train.py" file and replaced it with "model_main.py" file. I haven't been able to get model_main.py to work correctly yet (I run in to errors related to pycocotools). Fortunately, the train.py file is still available in the /object_detection/legacy folder. Simply move train.py from /object_detection/legacy into the /object_detection folder and then continue following the steps below.*
 
