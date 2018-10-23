@@ -259,4 +259,4 @@ If everything is working properly, the object detector will initialize for about
 
 
 ### I've included a jupyter notebook as well to better understand the code if the above instructions are, in some way, not clear.
-### Credits to [EdjeElectronics](https://github.com/EdjeElectronics) as I've used his readme for pointers.
+### Credits to [EdjeElectronics](https://github.com/EdjeElectronics) as I've used their readme for pointers.
