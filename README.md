@@ -9,7 +9,7 @@ This repository is a tutorial for how to use TensorFlow's Object Detection API t
 This readme describes every step required to get going with your own object detection classifier.
 
 **Table of contents:**
-1. [Installing TensorFlow-GPU]()
+1. [Installing TensorFlow-GPU](https://github.com/suvrat29/Card_detection#1-install-tensorflow-gpu-110-skip-this-step-if-tensorflow-gpu-already-installed)
 2. [Setting up TensorFlow directory and Anaconda Virtual Environment]()
 3. [Gathering and labeling pictures]()
 4. [Generating training data]()
