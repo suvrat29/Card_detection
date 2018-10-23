@@ -1,7 +1,7 @@
 # How To Train an Object Detection Classifier for Card-like Objects Using TensorFlow (GPU) on Ubuntu Linux(18.04 LTS)
----
+
 ## Brief Summary
----
+
 This repository is a tutorial for how to use TensorFlow's Object Detection API to train an object detection classifer for Card-like objects with bounding boxes on Ubuntu Linux(18.04 LTS). It is written in the latest TensorFlow version available on conda repository(1.10), but will also work for newer/older(upto 1.5) versions of TensorFlow. 
 
 *Note: The below mentioned steps can also be undertaken in Windows 10, but currently there are some issues pertaining to the compatibility of the TensorFlow prebuilt binaries used in this project.*
@@ -21,7 +21,7 @@ This readme describes every step required to get going with your own object dete
 This repository includes all the files needed to build a classifier based on the TensorFlow(GPU). Anything that causes any kind of issue has been rectified and the steps has been noted on the subsequent chapters with a "***Note:***". It also has the required python scripts that are used for tasks like converting xml to csv files or renaming the files.
 
 ## Introduction
----
+
 The purpose of this readme is to explain and better understand how to train your own Convolutional Neural Network(CNN) object detection classifier for multiple objects, starting from zero. At the end of this readme, we would have built a program that can identify and draw boxes around specific objects in pictures.
 
 This tutorial provides instruction for training a classifier that can detect multiple objects, not just one. The tutorial is written for Ubuntu 18.04 LTS, but it will also work on Ubuntu 16.04 and other distributions of linux. The general procedure can also be used for Windows operating systems, but file paths and package installation commands will need to be changed accordingly.
@@ -29,7 +29,7 @@ This tutorial provides instruction for training a classifier that can detect mul
 TensoFlow-GPU allows a PC to use the video card to provide extra processing power while training, so it will be used for this tutorial. The general consensus points to the conclusion that using TensorFLow-GPU cuts down the training time factor by several times (3 hours instead of 24 hours) as opposed to using TesorFlow-CPU. Regular TensorFLow can also be used when following this guide, but the training time will be longer. If we use regular TensorFLow(TensorFLow-CPU), we don't need CUDA and cuDNN in step 1. I used TensorFLow-GPU v1.10 at the time of writing this guide, but it will likely work for the future versions of TensorFlow.
 
 ## Steps
----
+
 
 ### 1. Installing TensorFlow-GPU 1.10 (skip this step if TensorFlow-GPU already installed)
 
