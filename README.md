@@ -8,14 +8,14 @@ This repository is a tutorial for how to use TensorFlow's Object Detection API t
 This readme describes every step required to get going with your own object detection classifier.
 
 **Table of contents:**
-1. [Installing TensorFlow-GPU](https://github.com/suvrat29/Card_detection#1-install-tensorflow-gpu-110-skip-this-step-if-tensorflow-gpu-already-installed)
-2. [Setting up TensorFlow directory and Anaconda Virtual Environment]()
-3. [Gathering and labeling pictures]()
-4. [Generating training data]()
-5. [Creating label map and configure training]()
-6. [Run the Training]()
-7. [Exporting the Inference Graph]()
-8. [Testing and Using the Newly Trained Object Detection Classifier]()
+1. [Installing TensorFlow-GPU](https://github.com/suvrat29/Card_detection/blob/master/README.md#1-installing-tensorflow-gpu-110-skip-this-step-if-tensorflow-gpu-already-installed)
+2. [Setting up TensorFlow Directory and Anaconda Virtual Environment](https://github.com/suvrat29/Card_detection/blob/master/README.md#2-setting-up-tensorflow-directory-and-anaconda-virtual-environment)
+3. [Gathering and Labeling Pictures](https://github.com/suvrat29/Card_detection/blob/master/README.md#3-gathering-and-labeling-pictures)
+4. [Generating Training Data](https://github.com/suvrat29/Card_detection/blob/master/README.md#4-generating-training-data)
+5. [Creating Label Map and Configure Training](https://github.com/suvrat29/Card_detection/blob/master/README.md#5-creating-label-map-and-configure-training)
+6. [Run the Training](https://github.com/suvrat29/Card_detection/blob/master/README.md#6-run-the-training)
+7. [Exporting the Inference Graph](https://github.com/suvrat29/Card_detection/blob/master/README.md#7-exporting-the-inference-graph)
+8. [Testing and Using the Newly Trained Object Detection Classifier](https://github.com/suvrat29/Card_detection/blob/master/README.md#8-testing-and-using-the-newly-trained-object-detection-classifier)
 
 This repository includes all the files needed to build a classifier based on the TensorFlow(GPU). Anything that causes any kind of issue has been rectified and the steps has been noted on the subsequent chapters with a "***Note:***". It also has the required python scripts that are used for tasks like converting xml to csv files or renaming the files.
 
