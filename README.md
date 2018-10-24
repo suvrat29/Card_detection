@@ -1,7 +1,7 @@
 # How To Train an Object Detection Classifier for Card-like Objects Using TensorFlow (GPU) on Ubuntu Linux(18.04 LTS)
 
 ## Brief Summary
-This repository is a tutorial for how to use TensorFlow's Object Detection API to train an object detection classifer for Card-like objects with bounding boxes on Ubuntu Linux(18.04 LTS). It is written in the latest TensorFlow version available on conda repository(1.10), but will also work for newer/older(upto 1.5) versions of TensorFlow. 
+This repository is a guide for how to use TensorFlow's Object Detection API to train an object detection classifer for Card-like objects with bounding boxes on Ubuntu Linux(18.04 LTS). It is written in the latest TensorFlow version available on conda repository(1.10), but will also work for newer/older(upto 1.5) versions of TensorFlow. 
 
 *Note: The below mentioned steps can also be undertaken in Windows 10, but currently there are some issues pertaining to the compatibility of the TensorFlow prebuilt binaries used in this project.*
 
@@ -20,34 +20,34 @@ This readme describes every step required to get going with your own object dete
 This repository includes all the files needed to build a classifier based on the TensorFlow(GPU). Anything that causes any kind of issue has been rectified and the steps has been noted on the subsequent chapters with a **"*Note:*"**. It also has the required python scripts that are used for tasks like converting xml to csv files or renaming the files.
 
 ## Introduction
-The purpose of this readme is to explain and better understand how to train your own Convolutional Neural Network(CNN) object detection classifier for multiple objects, starting from zero. At the end of this readme, we would have built a program that can identify and draw boxes around specific objects in pictures.
+The purpose of this readme is to explain and better understand how to train your own Convolutional Neural Network(CNN) object detection classifier for multiple objects, starting from zero. At the end of this readme, we would have built a program that can identify and draw bounding boxes around specific objects in pictures.
 
-This tutorial provides instruction for training a classifier that can detect multiple objects, not just one. The tutorial is written for Ubuntu 18.04 LTS, but it will also work on Ubuntu 16.04 and other distributions of linux. The general procedure can also be used for Windows operating systems, but file paths and package installation commands will need to be changed accordingly.
+This guide provides instructions for training a classifier that can detect multiple objects, not just one. The guide is written for Ubuntu 18.04 LTS, but it will also work on Ubuntu 16.04 and other distributions of linux. The general procedure can also be used for Windows operating systems, but file paths and package installation commands will need to be changed accordingly.
 
-TensorFlow-GPU allows a PC to use the video card to provide extra processing power while training, so it will be used for this tutorial. The general consensus points to the conclusion that using TensorFLow-GPU cuts down the training time factor by several times (3 hours instead of 24 hours) as opposed to using TesorFlow-CPU. Regular TensorFLow can also be used when following this guide, but the training time will be longer. If we use regular TensorFLow(TensorFLow-CPU), we don't need CUDA and cuDNN in step 1. I used TensorFLow-GPU v1.10 at the time of writing this guide, but it will likely work for the future versions of TensorFlow.
+TensorFlow-GPU allows a PC to use the video card to provide extra processing power while training, so it will be used for this tutorial. The general consensus points to the conclusion that using TensorFlow-GPU cuts down the training time factor by several times (3 hours instead of 24 hours) as opposed to using TesorFlow-CPU. Regular TensorFlow can also be used when following this guide, but the training time will be longer. If we use regular TensorFlow(TensorFlow-CPU), we don't need CUDA and cuDNN in step 1. I used TensorFlow-GPU v1.10 at the time of writing this guide, but it will likely work for the future versions of TensorFlow.
 
 ## Steps
 ### 1. Installing TensorFlow-GPU 1.10 (skip this step if TensorFlow-GPU already installed)
-Install TensorFlow-GPU by following the instructions in [this very beautifully written tutorial by Pudget Systems.](https://www.pugetsystems.com/labs/hpc/Install-TensorFlow-with-GPU-Support-the-Easy-Way-on-Ubuntu-18-04-without-installing-CUDA-1170/).
+Install TensorFlow-GPU by following the instructions in [this very beautifully written tutorial by Puget Systems.](https://www.pugetsystems.com/labs/hpc/Install-TensorFlow-with-GPU-Support-the-Easy-Way-on-Ubuntu-18-04-without-installing-CUDA-1170/).
 
 Be sure to install Anaconda with Python 3.6 as instructed in the tutorial, as the Anaconda virtual environment will be used for the rest of this guide.
 
 ### 2. Setting up TensorFlow Directory and Anaconda Virtual Environment
-The TensorFlow Object Detection API has some restrictions regarding the directory structure provided in its GitHub repository. It also requires several additional Python packages, specific additions to the PATH and PYTHONPATH variables, and a few extra setup commands to get everything set up to run or traing an object detection model.
+The TensorFlow Object Detection API has some restrictions regarding the directory structure provided in its GitHub repository. It also requires several additional Python packages, specific additions to the PATH and PYTHONPATH variables, and a few extra setup commands to get everything set up to run or train an object detection model.
 
-This portion of the guide goes over the full setup required. It is fairly straightforward, but follow the instructions closely, because improper setup can cause very problematic and headache inducing errors down the road.
+This portion of the guide goes over the full setup required. It is fairly straightforward but follow the instructions closely, because improper setup can cause very problematic and headache inducing errors down the road.
 
 #### 2a. Download TensorFlow Object Detection API repository from GitHub
 
-Create a folder in the '/home' directory and name it "TensorFlow". This working directory will containg the full TensorFlow object detection framework, as well as our training images, training data, trained classifier, configuration files, and everything else needed for the object detection classifier.
+Create a folder in the '/home/' directory and name it "TensorFlow". This working directory will contain the full TensorFlow object detection framework, as well as our training images, training data, trained classifier, configuration files, and everything else needed for the object detection classifier.
 
-*Note: Make sure there are no spaces anywhere in the directory structure as the commands pertaining will fail due to incomplete path. Instead of using spaces when assigning directory names, use underscores(_).*
+*Note: Make sure there are no spaces anywhere in the directory structure as the pertaining commands will fail due to incomplete path. Instead of using spaces when assigning directory names, use underscores(_).*
 
 Download the full TensorFlow object detection repository located at https://github.com/tensorflow/models by clicking the "Clone or Download" button and downloading the .zip file. This can also be done with the git cloning command from the terminal using:
 ```
 git clone https://github.com/tensorflow/models.git
 ```
-*Note: To use the "git clone" command, you should have the pre-requisite packages already installed in your ubuntu. This can be done by issuing the following commands:*
+*Note: To use the "git clone" command, you should have the pre-requisite packages already installed in your system. This can be done by issuing the following commands:*
 ```
 apt-get update
 apt-get install git-core
@@ -55,27 +55,29 @@ apt-get install git-core
 
 #### 2b. Download the Faster-RCNN-Inception-V2-COCO model from TensorFlow's model zoo
 
-TensorFlow provides several object detection models(pre-trained classifiers with specific neural network architectures) in its model zoo. Some models have an architecture that allows for faster detection but with less accuracy, while some models give slower detection but with more accuracy. In this guide, we will be using the Faster-RCNN model, but one can choose a different model to train their object detection classifier. If we aim to run the object detector on a device with low computational power(like smartphones), we can use the SSD-MobileNet model. If we'll be running our detector on a decently powered laptop or desktop PC, we'll use one of the RCNN models.
+TensorFlow provides several object detection models(pre-trained classifiers with specific neural network architectures) in its model zoo. Some models have an architecture that allows for faster detection but with less accuracy, while some models give slower detection but with more accuracy. In this guide, we will be using the Faster-RCNN model, but one can choose a different model to train their object detection classifier. If we aim to run our object detector on a device with low computational power(like smartphones), we can use the SSD-MobileNet model. If we'll be running our detector on a decently powered laptop or desktop PC, we'll use one of the RCNN models.
 
 [Download the model here](http://download.tensorflow.org/models/object_detection/faster_rcnn_inception_v2_coco_2018_01_28.tar.gz). Open the downloaded tar.gz file with an archiver such as 7-zip and extract the folder into /home/TensorFlow/models/research/object_detection folder.
 
 **Compile using Protobuf**
-The Tensorflow Object Detection API uses Protobufs to configure model and training parameters. Before the framework can be used, the Protobuf libraries must be compiled. This should be done by running the following command from the TensorFlow/models/research/ directory:
+
+The Tensorflow Object Detection API uses Protobufs to configure model and training parameters. Before the framework can be used, the Protobuf libraries must be compiled. This is be done by running the following command from the TensorFlow/models/research/ directory:
 
 ```protoc object_detection/protos/*.proto --python_out=.```
 
 #### 2c. Directory Structure
 
-The Directory structure has two approaches, one is to place all the required files and scripts directly into the /TensorFlow/ directory, or we can create a separate directory on our /home/. In this guide we'll follow the latter way as it leaves the tensorflow directory untouched and the directory has a clean and separate structure without any mixing or matching of files & folders.
+The Directory structure has two approaches, one is to place all the required files and scripts directly into the /TensorFlow/ directory, or we can create a separate directory on our /home/. In this guide we will be following the latter way as it leaves the TensorFlow directory untouched and the directory has a clean and separate structure without any mixing or matching of files & folders.
 
 At this point the directory structure should be like:-
-- /home/ProjectFloder/images/test - for the test images
+- /home/ProjectFolder/images/test - for the test images
 - /home/ProjectFolder/images/train - for the train images
 - /home/ProjectFolder/ - this directory will contain the scripts and files required to train the model
 - /home/ProjectFolder/training - for the model configuration files and labelmaps
-- Paste all the .py files into the /home/ProjectFolder/ directory or else the python scripts will throw errors
 
-Now, we are ready to start training our very own object detector. We'll be moving on to understand how the various files will be generated and used for training the model from our own dataset.
+*Note: Paste all the .py files into the /home/ProjectFolder/ directory or else the python scripts will throw errors.*
+
+Now, we are ready to start training our very own object detection model. We'll be moving on to understand how the various files will be generated and used for training the model from our own dataset.
 
 #### 2d. Set up new Anaconda virtual environment
 
