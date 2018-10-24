@@ -17,7 +17,7 @@ This readme describes every step required to get going with your own object dete
 7. [Exporting the Inference Graph](https://github.com/suvrat29/Card_detection/blob/master/README.md#7-exporting-the-inference-graph)
 8. [Testing and Using the Newly Trained Object Detection Classifier](https://github.com/suvrat29/Card_detection/blob/master/README.md#8-testing-and-using-the-newly-trained-object-detection-classifier)
 
-This repository includes all the files needed to build a classifier based on the TensorFlow(GPU). Anything that causes any kind of issue has been rectified and the steps has been noted on the subsequent chapters with a **"*Note:*"**. It also has the required python scripts that are used for tasks like converting xml to csv files or renaming the files.
+This repository includes all the files needed to build a classifier based on the TensorFlow(GPU). Anything that causes any kind of issue has been rectified and the steps has been noted on the subsequent chapters with a **"*Note:*"**. It also has the required Python scripts that are used for tasks like converting xml to csv files or renaming the files.
 
 ## Introduction
 The purpose of this readme is to explain and better understand how to train your own Convolutional Neural Network(CNN) object detection classifier for multiple objects, starting from zero. At the end of this readme, we would have built a program that can identify and draw bounding boxes around specific objects in pictures.
@@ -75,13 +75,13 @@ At this point the directory structure should be like:-
 - /home/ProjectFolder/ - this directory will contain the scripts and files required to train the model
 - /home/ProjectFolder/training - for the model configuration files and labelmaps
 
-*Note: Paste all the .py files into the /home/ProjectFolder/ directory or else the python scripts will throw errors.*
+*Note: Paste all the .py files into the /home/ProjectFolder/ directory or else the Python scripts will throw errors.*
 
 Now, we are ready to start training our very own object detection model. We'll be moving on to understand how the various files will be generated and used for training the model from our own dataset.
 
-#### 2d. Set up new Anaconda virtual environment
+#### 2d. Setting up a new Anaconda virtual environment
 
-Working within a virtual environment is a very good practice as it leaves the installation of the python in our system untouched and all the modifications are done within that virtual environment. If we mess up at any stage, we can just delete the environment instead of reinstalling python in our system from scratch.
+Working within a virtual environment is very good practice as it leaves the installation of Python in our system untouched and all the modifications are done within that virtual environment. So, if we mess up at any stage we can simply delete the environment instead of reinstalling Python in our system from scratch.
 
 Open a terminal, and create a new environment called "tf-gpu" by issuing the following command:
 ```
@@ -96,7 +96,8 @@ Install TensorFlow with GPU acceleration and all of the dependencies:
 conda install tensorflow-gpu
 ```
 **Create a new Jupyter Notebook Kernel for the TensorFlow environment.**
-With your tf-gpu environment activated, issue:
+
+With your "tf-gpu" environment activated, issue:
 ```
 conda install ipykernel
 ```
@@ -104,19 +105,21 @@ Now create the Jupyter Kernel:
 ```
 python -m ipykernel install --user --name tf-gpu --display-name "TensorFlow-GPU"
 ```
-With this "tf-gpu" kernel installed, when you open a Jupyter notebook you will now have an option to to start a new notebook with this kernel.
+With this "tf-gpu" kernel installed, when you open a Jupyter notebook you will now have an option to start a new notebook with this kernel.
 
 #### 2e. Configure PYTHONPATH environment variable
 
-A PYTHONPATH variable must be created that points to /models, /models/research and /models/research/slim directories. To do this, the below mentioned steps have to be followed word to word, everytime right after activating the tf-gpu environment:
+A PYTHONPATH variable must be created that points to /models, /models/research and /models/research/slim directories. To do this, the below mentioned steps have to be followed word to word, everytime right after activating the "tf-gpu" environment:
 - Change the working directory to: /home/TensorFlow/models/research/
 - Set PYTHONPATH variable as: ``` export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim ```
 - Type ``` cd``` to change to the regular working directory
-- Start the jupyter notebook ``` jupyter notebook ```
+- Start the Jupyter notebook ``` jupyter notebook ```
 
-#### 2f. Test Tensorflow setup to verify it works
+#### 2f. Test TensorFlow setup to verify it works
 
-The TensorFlow Object Detection API is now all set up to use pre-trained models for object detection, or to train a new one. You can test it out and verify your installation is working by launching the object_detection_tutorial.ipynb script with Jupyter. From the \object_detection directory, issue this command:
+The TensorFlow Object Detection API is now all set up to use pre-trained models for object detection, or to train a new one. You can test it out and verify your installation is working by launching the object_detection_tutorial.ipynb script with Jupyter. 
+
+From the \object_detection directory, issue this command:
 ```
 jupyter notebook object_detection_tutorial.ipynb
 ```
@@ -127,19 +130,21 @@ Now that the TensorFlow Object Detection API is all set up and ready to go, we n
 
 #### 3a. Gather Pictures
 
-TensorFlow needs hundreds of images of an object to train a good detection classifier. To train a robust classifier, the training images should have random objects in the images along with the desired objects, and should have a variety of backgrounds and lightning conditions. There should be some images where the desired object is partially obscured, overlapped with something else, or only halfway in the picture.
+TensorFlow needs hundreds of images of an object to train a good detection classifier. To train a robust classifier, the training images should have random objects in the images along with the desired objects, and should have a variety of backgrounds and lighting conditions. There should be some images where the desired object is partially obscured, overlapped with something else, or only halfway in the picture.
 
-For my Card Detection classifier, I want to detect cards of different dimensions. I used my iPhone to take about 360 pictures in total with one, two or multiple cards in the frame, in varioud lightning conditions and partially obscured. To detect overlapping cards, I made sure to have the cards overlapped in many images.
+For my Card Detection classifier, I want to detect cards of different dimensions. I used my iPhone to take about 360 pictures in total with one, two or multiple cards in the frame, in various lighting conditions and partially obscured. To detect overlapping cards, I made sure to have the cards overlapped in many images.
 
 You can use your phone to take pictures of the objects or download images of the objects from Google Image Search. I recommend having atleast 200 pictures overall.
 
 *Note: Make sure the images aren't too large. They should be under or equal to a 720p resolution max, or else we run into serious RAM shortage in our training phase. For instance, I used the images straight from my iPhone without resizing them, and I ran into severe RAM shortage. Mind you, I used a 16GB config with 10GB swap area. The large sizes of images need ridiculous amount of RAM of the order of ~100GB+.*
 
+After you have all the pictures you need, move 30% of them to the /home/ProjectFolder/images/test directory, and 70% of them to the /home/ProjectFolder/images/train directory. Make sure there are a variety of pictures in both the /test and /train directories.
+
 To reduce the size and resolution, a script is available or you can use any service/software to resize your photos to 1280x720 resolution max. A website I used was https://bulkresizephotos.com/ as they claim to do the conversion client side, and is very quick.
 
 #### 3b. Label Pictures
 
-This part can be quick or very long depending on the number of images we have gathered. With all the pictures gathered, it is time to label the desired objects in every picture. LabelImg is a great tool for labeling images, and its GitHub page has very clear instruction on how to install and use it.
+This part can be quick or very long depending on the number of images we have gathered. With all the pictures gathered, it is time to label the desired objects in every picture. LabelImg is a great tool for labeling images, and its GitHub page has very clear instructions on how to install and use it.
 
 [LabelImg GitHub link](https://github.com/tzutalin/labelImg)
 
@@ -153,16 +158,16 @@ LabelImg saves a .xml file which contains the label data for each image. The .xm
 
 With the images labeled, it's time to generate the TFRecords that serve as input data to the TensorFlow training model. For this, we'll use xml_to_csv.py and generate_tfrecord.py scripts.
 
-First, the image .xml data will be used to create .csv files containing all the labeling data for the train and test images. Place the /train and /test label .xml data in the structure /images/train/*.xml and /images/test/*.xml and then run the xml_to_csv.py script.
+First, the image .xml data will be used to generate .csv files containing all the labeling data for the train and test images. Place the /train and /test label .xml data in the structure /images/train/XXXX.xml and /images/test/XXXX.xml if not already done and then run the xml_to_csv.py script from the /home/ProjectFolder/ directory.
 ```
 python xml_to_csv.py
 ```
  
- After running the script we get train_labels.csv and test_labels.csv in the /images/ folder.
+ After executing the script we get train_labels.csv and test_labels.csv in the /images/ folder.
  
- Next, open the generate_tfrecord.py file in a text editor. Replace the label map starting at line 31 with your own label map, where each object is assigned an ID number. This same number assignment will be used when configuring the labelmap.pbtxt file.
+ Next, open the generate_tfrecord.py file in a text editor. Replace the label map starting at line 31 with your own label map, where each object is assigned an ID number. This same number assignment will be used when configuring the labelmap.pbtxt file at a later stage.
  
- For example, say you are training a classifier to detect basketballs, shirts, and shoes. You will replace the following code in generate_tfrecord.py:
+ For example, say we want to detect scooters. We will replace the following code in generate_tfrecord.py:
  ```
 def class_text_to_int(row_label):
     if row_label == 'card':
@@ -185,7 +190,7 @@ def class_text_to_int(row_label):
 python generate_tfrecord.py --csv_input=/home/ProjectFolder/images/test_labels.csv --image_dir=/home/ProjectFolder/images/test --output_path=test.record
  ```
  
- These generate a train.record and a test.record file in /ProjectFolder. These will be used to train the new object detection classifier.
+ These generate a train.record and a test.record file in /ProjectFolder/. These will be used to train the new object detection classifier.
  
  ### 5. Creating Label Map and Configure Training
  
@@ -193,7 +198,7 @@ python generate_tfrecord.py --csv_input=/home/ProjectFolder/images/test_labels.c
  
  #### 5a. Label Map
  
- The label map tells the trainer what each object is by defining a mapping of class names to class ID numbers. Use a text editor to create a new file and save it as labelmap.pbtxt in the /home/ProjectFolder/training folder. (Make sure the file type is .pbtxt, not .txt !) In the text editor, copy or type in the label map in the format below (the example below is the label map for my Card Detector):
+ The label map instructs the trainer what each object is by defining a mapping of class names to class ID numbers. Use a text editor to create a new file and save it as labelmap.pbtxt in the /home/ProjectFolder/training folder(Make sure the file type is .pbtxt, not .txt !). In the text editor, copy or type in the label map in the format below (the example below is the label map for my Card Detector):
  ```
  item {
   id: 1
@@ -201,7 +206,7 @@ python generate_tfrecord.py --csv_input=/home/ProjectFolder/images/test_labels.c
   }
  ```
  
- *Note: The label map ID numbers should be the same as what is defined in the generate_tfrecord.py file.*
+ *Note: The label map ID numbers should be the same as defined in the generate_tfrecord.py file.*
  
  #### 5b. Configure Training
  
@@ -209,11 +214,13 @@ python generate_tfrecord.py --csv_input=/home/ProjectFolder/images/test_labels.c
 
 Navigate to /home/TensorFlow/models/research/object_detection/samples/configs and copy the faster_rcnn_inception_v2_pets.config file into the /home/ProjectFolder/training directory. Then, open the file with a text editor. There are several changes to make to the .config file, mainly changing the number of classes and examples, and adding the file paths to the training data.
 
-Make the following changes to the faster_rcnn_inception_v2_pets.config file. Note: The paths must be entered with single forward slashes (NOT backslashes), or TensorFlow will give a file path error when trying to train the model! Also, the paths must be in double quotation marks ( " ), not single quotation marks ( ' ).
+Make the following changes to the faster_rcnn_inception_v2_pets.config file. 
+
+*Note: The paths must be entered with single forward slashes (NOT backslashes), or TensorFlow will give a file path error when trying to train the model! Also, the paths must be in double quotation marks ( " ), not single quotation marks ( ' ).*
 
 - Line 9. Change num_classes to the number of different objects you want the classifier to detect. For the my model, it would be num_classes : 1.
 - Line 110. Change fine_tune_checkpoint to:
-  - fine_tune_checkpoint : "/home/ProjectFolder/training/faster_rcnn_inception_v2_coco_2018_01_28/model.ckpt"
+  - fine_tune_checkpoint : "/home/TensorFlow/models/research/object_detection/faster_rcnn_inception_v2_coco_2018_01_28/model.ckpt"
 - Lines 126 and 128. In the train_input_reader section, change input_path and label_map_path to:
   - input_path : "/home/ProjectFolder/train.record"
   - label_map_path: "/home/ProjectFolder/training/labelmap.pbtxt"
@@ -226,7 +233,7 @@ Save the file after the changes have been made. The training job is all configur
 
 ### 6. Run the Training
 
-*Note: As of version 1.9, TensorFlow has deprecated the "train.py" file and replaced it with "model_main.py" file. I haven't been able to get model_main.py to work correctly yet (I run in to errors related to pycocotools). Fortunately, the train.py file is still available in the /object_detection/legacy folder. Simply move train.py from /object_detection/legacy into the /object_detection folder and then continue following the steps below.*
+*Note: As of version 1.9, TensorFlow has deprecated the "train.py" file and replaced it with "model_main.py" file. Fortunately, the train.py file is still available in the /object_detection/legacy folder. Simply move train.py from /object_detection/legacy into the /object_detection folder and then continue following the steps below.*
 
 To start training, issue the following command from /home/ProjectFolder/ directory to begin training:
 ```
@@ -249,16 +256,14 @@ This creates a frozen_inference_graph.pb file in the /home/ProjectFolder/inferen
 
 ### 8. Testing and Using the Newly Trained Object Detection Classifier
 
-The object detection classifier is all ready to go! I’ve written Python scripts to test it out on an image, video, or webcam feed.
+The object detection classifier is ready to go! I’ve written Python scripts to test it out on an image.
 
-Before running the Python scripts, you need to modify the NUM_CLASSES variable in the script to equal the number of classes you want to detect. (For my Card Detector, there isone class I want to detect, so NUM_CLASSES = 1.)
+Before running the Python scripts, you need to modify the NUM_CLASSES variable in the script to equal the number of classes you want to detect. (For my Card Detector, there is one class I want to detect, so NUM_CLASSES = 1.)
 
 To test your object detector, move a picture of the object or objects into the /ProjectFolder folder, and change the IMAGE_NAME variable in the Object_detection_image.py to match the file name of the picture.
 
-To run any of the scripts, type “idle” in the Anaconda Command Prompt (with the “tf-gpu” virtual environment activated) and press ENTER. This will open IDLE, and from there, you can open any of the scripts and run them.
-
-If everything is working properly, the object detector will initialize for about 10 seconds and then display a window showing any objects it’s detected in the image!
+To run any of the scripts, type “python Object_detection_image.py” in the terminal and press ENTER. This will open a new window, and if everything is working properly, the object detector will initialize for about 10 seconds and then display showing any objects it has detected in the image.
 
 
-### I've included a jupyter notebook as well to better understand the code if the above instructions are, in some way, not clear.
+### I've included a Jupyter notebook as well to better understand the code if the above instructions are, in some way, unclear.
 ### Credits to [EdjeElectronics](https://github.com/EdjeElectronics) as I've used their readme for pointers.
